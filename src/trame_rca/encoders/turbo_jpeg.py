@@ -1,5 +1,5 @@
 from numpy.typing import NDArray
-from turbojpeg import TurboJPEG, TJPF_RGB, TJPF_RGBX
+from turbojpeg import TurboJPEG, TJPF_RGB, TJPF_RGBX, TJSAMP_420
 from trame_rca.encoders.img import TO_IMAGE_TYPE, rgbx_view
 # import time
 
@@ -46,7 +46,10 @@ def encode_np_img_to_bytes(
     if rgbx is not None:
         # VtkRemoteControlledArea frame: read its RGBX buffer without a copy
         image, pixel_format = rgbx, TJPF_RGBX
-    result = jpeg.encode(image, quality=quality, pixel_format=pixel_format)
+    # 4:2:0 like Pillow; PyTurboJPEG's default 4:2:2 gives larger, slower frames
+    result = jpeg.encode(
+        image, quality=quality, pixel_format=pixel_format, jpeg_subsample=TJSAMP_420
+    )
     # t1 = time.time()
     # print(f"tubo-jpeg encode {t1-t0:.04f}s")
 
