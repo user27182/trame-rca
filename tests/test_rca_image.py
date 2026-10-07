@@ -214,11 +214,6 @@ def test_img_cols_rows_is_a_top_down_rgb_array(quadrants_window):
         assert tuple(image[row, col]) == QUADRANTS[name][1], name
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="VtkRemoteControlledArea unpacks GetDimensions() (width, height) as "
-    "rows, cols, so it returns the height as cols and the width as rows",
-)
 @pytest.mark.parametrize("encoder", list(RcaImageEncoder))
 def test_frame_size_is_columns_then_rows(quadrants_window, encoder):
     image, cols, rows = VtkRemoteControlledArea(quadrants_window).img_cols_rows
