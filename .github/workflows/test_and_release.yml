@@ -52,6 +52,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y libosmesa6-dev
+          echo "VTK_DEFAULT_OPENGL_WINDOW=vtkOSOpenGLRenderWindow" >> "$GITHUB_ENV"
 
       # PyTurboJPEG 2 needs libjpeg-turbo >= 3.0. Ubuntu's libturbojpeg is 2.x and,
       # if installed, is found first, so use the official package in /opt instead.
