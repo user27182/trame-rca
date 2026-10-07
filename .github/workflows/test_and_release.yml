@@ -98,9 +98,16 @@ jobs:
           fi
           # Install requirements for playwright
           playwright install
-          pytest -s ./tests
+          pytest -s ./tests --benchmark-json=benchmark.json
         env:
           CI: true
+
+      - name: Upload benchmark results
+        if: matrix.config.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v7
+        with:
+          name: benchmark-linux
+          path: benchmark.json
 
   vitest:
     name: Vitest (JS Core Unit Tests)
